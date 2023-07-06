@@ -7,6 +7,7 @@ It's an Simple Web Based Sub-Domain Finder. It's Work under your Local host
 <h3 align="center">Installation</h3>
 1] git clone https://github.com/HackerNowful/W_Sub-Hunter
 
+
 2] cd W_Sub-Hunter
 
 3] chmod +x *
