@@ -1,36 +1,40 @@
 <?php
 if (isset($_GET['type']) && isset($_GET['output'])) {
     $type = $_GET['type'];
-    $output = urldecode($_GET['output']);    
+    $output = urldecode($_GET['output']);
+    
     if ($type === 'txt') {
-        // Convert the output to TXT format
+
         $txtData = "Attribute\tValue\n";
         preg_match_all('/\b(HostName|HostIP)\s*:\s*([^\n]+)/i', $output, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $txtData .= $match[1] . "\t" . $match[2] . "\n";
         }
+        
         header('Content-Type: text/plain');
         header('Content-Disposition: attachment; filename="scan_results.txt"');
         echo $txtData;
         exit();
     } elseif ($type === 'csv') {
-        // Convert the output to CSV format
         $csvData = "Attribute,Value\n";
         preg_match_all('/\b(HostName|HostIP)\s*:\s*([^\n]+)/i', $output, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $csvData .= $match[1] . "," . $match[2] . "\n";
         }
+        
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="scan_results.csv"');
         echo $csvData;
         exit();
-    } 
+    } elseif ($type === 'pdf') {
+
+require_once('tcpdf/tcpdf.php');
+
 if (isset($_GET['type']) && isset($_GET['output'])) {
     $type = $_GET['type'];
     $output = urldecode($_GET['output']);
 
     if ($type === 'pdf') {
-        // Generate a PDF file using TCPDF
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
         $pdf->SetCreator('DMitry Scan');
         $pdf->SetAuthor('Your Name');
@@ -56,6 +60,6 @@ if (isset($_GET['type']) && isset($_GET['output'])) {
         $pdf->Output('scan_results.pdf', 'D');
         exit();
     }
-}  
+}     
     }
 }
